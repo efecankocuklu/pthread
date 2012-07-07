@@ -21,7 +21,7 @@
  int main(){
 		 pthread_t threads[NUMTHREADS];
 		 long number;
-		 long result[NUMTHREADS];
+		 double  result[NUMTHREADS];
 		 void *exit_status[NUMTHREADS];
 		 int rc;
 
@@ -31,12 +31,13 @@
 						 printf("there's been an error in creating thread %ld",number);
 						 return 0;
 				 }
-				 pthread_join(threads[number],&exit_status[number]);
 		 }
 
 		 for(number=0;number<NUMTHREADS;number++){
-				 result[number]=(long)exit_status[number];
-				 printf("the squareroot of %ld is %ld\n",number,result[number]);
+				 pthread_join(threads[number],&exit_status[number]);
+				 result[number]=*((double*)exit_status[number]);
+				 printf("the squareroot of %ld is %f\n",number,result[number]);
+				 free((double*)exit_status[number]);
 		 }
 
 		 return 0;
